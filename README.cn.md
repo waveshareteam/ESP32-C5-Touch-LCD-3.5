@@ -8,6 +8,8 @@
 
 中文 | [English](./README.md) | [产品页面](https://www.waveshare.net/shop/ESP32-C5-Touch-LCD-3.5.htm) | [使用文档](https://docs.waveshare.net/ESP32-C5-Touch-LCD-3.5) | [出厂固件](./Firmware/) | [ESP-IDF 示例](./example/ESP-IDF-V554/) | [Arduino 示例](./example/Arduino-v3.3.10/example/)
 
+<img src="./assets/ESP32-C5-Touch-LCD-3.5.png" alt="ESP32-C5-Touch-LCD-3.5" width="560">
+
 </div>
 
 ## 简介
