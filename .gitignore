@@ -1,8 +1,32 @@
+# ESP-IDF / CMake build outputs
+build/
 **/build/
+managed_components/
+**/managed_components/
+compile_commands.json
+sdkconfig.old
+
+# Arduino / PlatformIO build outputs
+.pio/
 **/.pio/
+
+# Editor files
+.vscode/
 **/.vscode/
+.idea/
 **/.idea/
+
+# Generated binaries and link outputs
+*.elf
+*.map
+*.o
+*.obj
+
+# Python cache
+__pycache__/
 **/__pycache__/
 *.py[cod]
+
+# OS files
 .DS_Store
 Thumbs.db
