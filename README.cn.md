@@ -4,7 +4,7 @@
 
 **3.5 英寸 ESP32-C5 Wi-Fi 6 触摸屏开发板**
 
-[![许可证](https://img.shields.io/github/license/waveshareteam/ESP32-C5-Touch-LCD-3.5)](./LICENSE)
+[![许可证](https://img.shields.io/badge/license-Apache--2.0-green.svg)](./LICENSE)
 
 中文 | [English](./README.md) | [产品页面](https://www.waveshare.net/shop/ESP32-C5-Touch-LCD-3.5.htm) | [使用文档](https://docs.waveshare.net/ESP32-C5-Touch-LCD-3.5) | [出厂固件](./Firmware/) | [ESP-IDF 示例](./example/ESP-IDF-V554/) | [Arduino 示例](./example/Arduino-v3.3.10/example/)
 
