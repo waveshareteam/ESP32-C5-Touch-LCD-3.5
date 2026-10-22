@@ -1,0 +1,7 @@
+dependencies:
+  brookesia_core:
+    override_path: "../components/brookesia_core"
+
+  # Match the UI dependencies used by the working camera project.
+  lvgl/lvgl: "9.6.0~1"
+  espressif/libpng: "1.6.58~2"
