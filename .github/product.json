@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/waveshareteam/esp32-repo-template/v1/schema/product.schema.json",
+  "product": "ESP32-C5-Touch-LCD-3.5",
+  "product_url": "https://www.waveshare.net/shop/ESP32-C5-Touch-LCD-3.5.htm",
+  "tier": 0,
+  "target": "esp32c5",
+  "esp_idf": { "versions": ["v5.5.4"] },
+  "arduino": {
+    "core": "3.3.10",
+    "fqbn": "esp32:esp32:esp32c5:FlashSize=16M,PSRAM=enabled,FlashMode=qio,PartitionScheme=app3M_fat9M_16MB,CDCOnBoot=cdc"
+  },
+  "factory_firmware": { "esp_idf": "v5.5.4" },
+  "overrides": {
+    "markdown_audit": {
+      "relative_link_ignore_patterns": [
+        "examples/arduino/libraries/lvgl/docs/**"
+      ],
+      "classification_rules": [
+        {
+          "category": "first_party_customer",
+          "patterns": [
+            "examples/**/components/waveshare__esp32_c5_touch_lcd_3_5/README*.md",
+            "examples/factory/components/XiaozhiApp/README*.md"
+          ]
+        },
+        {
+          "category": "third_party",
+          "patterns": [
+            "examples/**/components/brookesia_core/**",
+            "examples/**/components/espressif__esp_cam_sensor/**",
+            "examples/**/components/example_video_common/**",
+            "examples/**/components/shtc3/**",
+            "examples/**/components/sensorlib/**",
+            "examples/**/components/XPowersLib/**",
+            "examples/factory/components/esp_xiaozhi/**",
+            "examples/factory/components/mcp-c-sdk/**",
+            "examples/factory/components/XiaozhiApp/third_party/**"
+          ]
+        }
+      ]
+    }
+  }
+}
