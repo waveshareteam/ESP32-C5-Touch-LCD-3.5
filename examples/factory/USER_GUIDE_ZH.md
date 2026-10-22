@@ -44,7 +44,7 @@
 | Photos | 浏览 `/photo` 中的 JPEG；左右滑动换图，从底边向上滑动退出。 |
 | Weather | 连接互联网后查看天气信息。 |
 | Music | 播放 `/music` 中的 MP3，支持上一首、下一首和播放/暂停切换；音量在 Settings 调整。 |
-| Sensor | 查看硬件 RTC 时间及 QMI8658 加速度、陀螺仪数据。 |
+| Sensor | 查看 PCF85063 硬件 RTC 时间、QMI8658 加速度和陀螺仪数据，以及 SHTC3 温度、相对湿度。温湿度每秒更新一次。 |
 | 2048 | 滑动合并数字，点 **New** 重新开始。 |
 | Camera | 查看摄像头预览，按 BOOT 旋转 180°；插入 SD 卡后，点 **Capture** 将照片保存到 `/photo`，随后可在 Photos 浏览。 |
 | Mic Test | 不插卡也可查看麦克风音量变化；插卡后点 **Record** 开始录音，最多录制 10 秒，点 **Stop** 可提前结束，再点 **Play** 回放最近一段录音。文件保存在 `/recordings`。 |

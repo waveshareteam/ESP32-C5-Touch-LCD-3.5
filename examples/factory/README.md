@@ -4,7 +4,7 @@
 
 ## What It Does
 
-Provides a 320 × 480 portrait desktop with 12 applications for touch, display, camera, music, recording, networking and Xiaozhi conversation. See the [user guide](USER_GUIDE.md) for controls.
+Provides a 320 × 480 portrait desktop with 12 applications for touch, display, camera, music, recording, sensors, networking and Xiaozhi conversation. Sensor shows RTC, six-axis motion, and SHTC3 temperature and humidity data; see the [user guide](USER_GUIDE.md) for controls.
 
 ## Hardware Required
 

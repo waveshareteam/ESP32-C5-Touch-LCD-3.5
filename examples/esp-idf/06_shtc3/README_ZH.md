@@ -25,5 +25,5 @@ idf.py build flash monitor
 
 ## 常见问题
 
-该独立示例与出厂 Sensor 应用不同，后者仅显示 RTC 和 IMU 数据。
+读取失败时请检查传感器供电及 I2C 连接。出厂 Sensor 应用也可查看 SHTC3 温湿度，以及 RTC 和 IMU 数据。
 

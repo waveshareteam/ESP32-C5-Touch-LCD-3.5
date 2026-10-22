@@ -22,10 +22,13 @@ private:
     static void poll(lv_timer_t *);
     static Sensor *instance_;
     lv_obj_t *root_=nullptr,*clock_=nullptr,*date_=nullptr,*status_=nullptr,*values_[6]={};
+    lv_obj_t *temperature_=nullptr,*humidity_=nullptr;
     lv_timer_t *timer_=nullptr;
     portMUX_TYPE lock_=portMUX_INITIALIZER_UNLOCKED;
     bsp_sensor_datetime_t time_={};
     bsp_imu_data_t motion_={};
+    bsp_shtc3_data_t environment_={};
     esp_err_t rtc_error_=ESP_ERR_NOT_FINISHED,imu_error_=ESP_ERR_NOT_FINISHED;
+    esp_err_t shtc3_error_=ESP_ERR_NOT_FINISHED;
 };
 }

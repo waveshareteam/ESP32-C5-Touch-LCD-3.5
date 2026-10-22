@@ -8,6 +8,7 @@ extern "C" {
 typedef struct {
     esp_err_t i2c, expander, power, display, touch;
     esp_err_t button, audio, rtc, imu, sdcard, camera, wifi;
+    esp_err_t shtc3;
 } bsp_init_status_t;
 
 /* Call once from app_main before starting APPs. Required power/display errors
@@ -59,6 +60,13 @@ esp_err_t bsp_rtc_get_datetime(bsp_sensor_datetime_t *datetime);
 esp_err_t bsp_rtc_set_datetime(const bsp_sensor_datetime_t *datetime);
 esp_err_t bsp_imu_init(void);
 esp_err_t bsp_imu_get_data(bsp_imu_data_t *data);
+
+typedef struct {
+    float temperature_c;
+    float humidity_percent;
+} bsp_shtc3_data_t;
+esp_err_t bsp_shtc3_init(void);
+esp_err_t bsp_shtc3_get_data(bsp_shtc3_data_t *data);
 
 typedef struct {
     bool mounted;

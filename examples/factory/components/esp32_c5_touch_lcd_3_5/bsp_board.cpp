@@ -13,6 +13,7 @@
 #include "esp_heap_caps.h"
 #include "esp_system.h"
 #include "esp_timer.h"
+#include "esp_rom_sys.h"
 #include "esp_event.h"
 #include "esp_netif.h"
 #include "esp_wifi.h"
@@ -40,14 +41,14 @@
 #include "SensorQMI8658.hpp"
 
 static const char *TAG = "bsp_c5_3_5";
-static i2c_master_dev_handle_t pmu_dev, rtc_dev, imu_dev;
+static i2c_master_dev_handle_t pmu_dev, rtc_dev, imu_dev, shtc3_dev;
 static esp_io_expander_handle_t expander;
 static SemaphoreHandle_t sensor_mutex, camera_mutex;
 static StaticSemaphore_t camera_mutex_storage;
 static XPowersAXP2101 power;
 static SensorPCF85063 rtc;
 static SensorQMI8658 imu;
-static bool power_ready, rtc_ready, imu_ready, wifi_ready;
+static bool power_ready, rtc_ready, imu_ready, shtc3_ready, wifi_ready;
 static std::atomic<bool> camera_ready{false};
 static bool expander_ready;
 static esp_timer_handle_t power_timer;
@@ -58,7 +59,8 @@ bsp_init_status_t bsp_board_status = {
     ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE,
     ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE,
     ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE,
-    ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE
+    ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE, ESP_ERR_INVALID_STATE,
+    ESP_ERR_INVALID_STATE
 };
 
 class SensorLock {
@@ -79,7 +81,7 @@ esp_err_t bsp_board_init_locks(void)
 
 bool bsp_board_i2c_in_use(void)
 {
-    return pmu_dev || rtc_dev || imu_dev || expander;
+    return pmu_dev || rtc_dev || imu_dev || shtc3_dev || expander;
 }
 
 const bsp_init_status_t *bsp_get_init_status(void) { return &bsp_board_status; }
@@ -436,6 +438,83 @@ esp_err_t bsp_imu_get_data(bsp_imu_data_t *data)
     if (register_error != ESP_OK) return register_error;
     if (!accel_ok || !gyro_ok) return ESP_FAIL;
     *data = result;
+    return ESP_OK;
+}
+
+static uint8_t shtc3_crc(const uint8_t *data)
+{
+    uint8_t crc = 0xff;
+    for (int i = 0; i < 2; ++i) {
+        crc ^= data[i];
+        for (int bit = 0; bit < 8; ++bit) {
+            crc = (crc & 0x80) ? (crc << 1) ^ 0x31 : crc << 1;
+        }
+    }
+    return crc;
+}
+
+static esp_err_t shtc3_command(uint16_t command)
+{
+    const uint8_t bytes[] = {static_cast<uint8_t>(command >> 8), static_cast<uint8_t>(command)};
+    return i2c_master_transmit(shtc3_dev, bytes, sizeof(bytes), 100);
+}
+
+static esp_err_t shtc3_wake(void)
+{
+    esp_err_t ret = shtc3_command(0x3517);
+    if (ret == ESP_OK) esp_rom_delay_us(240);
+    return ret;
+}
+
+esp_err_t bsp_shtc3_init(void)
+{
+    ESP_RETURN_ON_ERROR(bsp_i2c_init(), TAG, "I2C bus");
+    SensorLock lock;
+    if (shtc3_ready) return ESP_OK;
+    if (!shtc3_dev) {
+        // A sleeping SHTC3 must receive its wake command before being probed.
+        i2c_device_config_t cfg = {};
+        cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
+        cfg.device_address = 0x70;
+        cfg.scl_speed_hz = BSP_I2C_FREQ_HZ;
+        ESP_RETURN_ON_ERROR(i2c_master_bus_add_device(bsp_i2c_get_handle(), &cfg, &shtc3_dev), TAG, "SHTC3 device");
+    }
+    ESP_RETURN_ON_ERROR(shtc3_wake(), TAG, "SHTC3 wake");
+    uint8_t id[3] = {};
+    esp_err_t ret = shtc3_command(0xefc8);
+    if (ret == ESP_OK) ret = i2c_master_receive(shtc3_dev, id, sizeof(id), 100);
+    if (ret == ESP_OK && shtc3_crc(id) != id[2]) ret = ESP_ERR_INVALID_CRC;
+    const uint16_t product_id = (static_cast<uint16_t>(id[0]) << 8) | id[1];
+    if (ret == ESP_OK && (product_id & 0x083f) != 0x0807) ret = ESP_ERR_NOT_FOUND;
+    esp_err_t sleep_ret = shtc3_command(0xb098);
+    if (ret == ESP_OK) ret = sleep_ret;
+    ESP_RETURN_ON_ERROR(ret, TAG, "SHTC3 identification");
+    shtc3_ready = true;
+    ESP_LOGI(TAG, "SHTC3 ready at 0x70, ID: 0x%04x", product_id);
+    return ESP_OK;
+}
+
+esp_err_t bsp_shtc3_get_data(bsp_shtc3_data_t *data)
+{
+    if (!data) return ESP_ERR_INVALID_ARG;
+    if (!shtc3_ready) return ESP_ERR_INVALID_STATE;
+    SensorLock lock;
+    esp_err_t ret = shtc3_wake();
+    if (ret != ESP_OK) return ret;
+    // Normal mode, temperature first, no clock stretching (same as the example).
+    ret = shtc3_command(0x7866);
+    uint8_t raw[6] = {};
+    if (ret == ESP_OK) {
+        vTaskDelay(pdMS_TO_TICKS(20) + 1);
+        ret = i2c_master_receive(shtc3_dev, raw, sizeof(raw), 100);
+    }
+    esp_err_t sleep_ret = shtc3_command(0xb098);
+    if (ret == ESP_OK) ret = sleep_ret;
+    if (ret != ESP_OK) return ret;
+    if (shtc3_crc(raw) != raw[2] || shtc3_crc(raw + 3) != raw[5]) return ESP_ERR_INVALID_CRC;
+    const uint16_t temperature = (static_cast<uint16_t>(raw[0]) << 8) | raw[1];
+    const uint16_t humidity = (static_cast<uint16_t>(raw[3]) << 8) | raw[4];
+    *data = {-45.0f + 175.0f * temperature / 65535.0f, 100.0f * humidity / 65535.0f};
     return ESP_OK;
 }
 
@@ -832,6 +911,7 @@ esp_err_t bsp_init(void)
     bsp_board_status.audio = bsp_extra_codec_init(); report("ES8311", bsp_board_status.audio);
     bsp_board_status.rtc = bsp_rtc_init(); report("PCF85063", bsp_board_status.rtc);
     bsp_board_status.imu = bsp_imu_init(); report("QMI8658", bsp_board_status.imu);
+    bsp_board_status.shtc3 = bsp_shtc3_init(); report("SHTC3", bsp_board_status.shtc3);
     bsp_board_status.sdcard = bsp_sdcard_mount(); report("SD card", bsp_board_status.sdcard);
     bsp_board_status.camera = bsp_camera_init(); report("Camera", bsp_board_status.camera);
     bsp_board_status.wifi = bsp_wifi_init(); report("Wi-Fi driver", bsp_board_status.wifi);

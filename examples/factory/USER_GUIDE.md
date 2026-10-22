@@ -44,7 +44,7 @@ Use 320 × 480 JPEGs for faster loading. After adding photos, reopen Photos to v
 | Photos | View JPEGs from `/photo`; swipe left/right to change images and upward from the bottom edge to exit. |
 | Weather | Connect to the Internet to view weather information. |
 | Music | Play MP3s from `/music`; use previous, next and the combined play/pause button. Adjust volume in Settings. |
-| Sensor | View hardware RTC time and QMI8658 accelerometer/gyroscope data. |
+| Sensor | View PCF85063 hardware RTC time, QMI8658 accelerometer/gyroscope data, and SHTC3 temperature and relative humidity. Temperature and humidity update once per second. |
 | 2048 | Swipe to move tiles; tap **New** to start again. |
 | Camera | View the camera and press BOOT to rotate 180°. With an SD card inserted, tap **Capture** to save a JPEG in `/photo`, then open Photos to view it. |
 | Mic Test | Watch the microphone level without an SD card. Insert a card and tap **Record** to record for up to 10 seconds; tap **Stop** to finish early, then **Play** to replay the latest recording. Files are saved under `/recordings`. |

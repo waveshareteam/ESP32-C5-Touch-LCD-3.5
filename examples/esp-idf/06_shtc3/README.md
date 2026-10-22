@@ -25,5 +25,5 @@ The serial monitor reports temperature and relative humidity.
 
 ## Troubleshooting
 
-This standalone test is separate from the factory Sensor application, which shows RTC and IMU data.
+If readings fail, check sensor power and the I2C connection. The factory Sensor application also displays SHTC3 temperature and humidity alongside RTC and IMU data.
 
