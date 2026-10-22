@@ -1,10 +1,10 @@
-# 07_exio
+# 03_qmi8658
 
 [English](README.md) | [简体中文](README_ZH.md)
 
 ## What It Does
 
-Toggles CH32V006 expansion outputs EXIO8 through EXIO15.
+Reads acceleration and angular velocity from the QMI8658 IMU.
 
 ## Hardware Required
 
@@ -21,9 +21,9 @@ idf.py build flash monitor
 
 ## Expected Result
 
-The output levels toggle once per second and the serial log reports the state.
+Serial readings change when you move or rotate the board.
 
 ## Troubleshooting
 
-EXIO0 through EXIO7 are excluded because they control onboard resources.
+The example uses the onboard sensor; no external IMU is required.
 

@@ -1,10 +1,10 @@
-# 04_qmi8658
+# 04_pcf85063
 
 [English](README.md) | [简体中文](README_ZH.md)
 
 ## What It Does
 
-Reads acceleration and angular velocity from the QMI8658 IMU.
+Sets and reads the onboard PCF85063A RTC.
 
 ## Hardware Required
 
@@ -21,9 +21,9 @@ idf.py build flash monitor
 
 ## Expected Result
 
-Serial readings change when you move or rotate the board.
+The serial monitor prints a clock that advances every second.
 
 ## Troubleshooting
 
-The example uses the onboard sensor; no external IMU is required.
+Each boot sets the RTC to 2026-09-22 15:00:00; this is a fixed demo time.
 

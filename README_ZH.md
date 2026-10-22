@@ -49,13 +49,13 @@ ESP32-C5-Touch-LCD-3.5 集成 320 × 480 触摸显示、摄像头接口、音频
 
 | 示例 | 功能 |
 | --- | --- |
-| [02_lvgl_demo](examples/esp-idf/02_lvgl_demo/) | LVGL 显示及触摸基准测试 |
-| [03_sd_card](examples/esp-idf/03_sd_card/) | microSD 卡读写验证 |
-| [04_qmi8658](examples/esp-idf/04_qmi8658/) | QMI8658 加速度与角速度 |
-| [05_pcf85063](examples/esp-idf/05_pcf85063/) | PCF85063A 实时时钟 |
-| [06_shtc3](examples/esp-idf/06_shtc3/) | SHTC3 温湿度 |
-| [07_exio](examples/esp-idf/07_exio/) | CH32V006 IO 扩展 |
-| [08_AXP2101](examples/esp-idf/08_AXP2101/) | AXP2101 电源管理 |
+| [01_lvgl_demo](examples/esp-idf/01_lvgl_demo/) | LVGL 显示及触摸基准测试 |
+| [02_sd_card](examples/esp-idf/02_sd_card/) | microSD 卡读写验证 |
+| [03_qmi8658](examples/esp-idf/03_qmi8658/) | QMI8658 加速度与角速度 |
+| [04_pcf85063](examples/esp-idf/04_pcf85063/) | PCF85063A 实时时钟 |
+| [05_shtc3](examples/esp-idf/05_shtc3/) | SHTC3 温湿度 |
+| [06_exio](examples/esp-idf/06_exio/) | CH32V006 IO 扩展 |
+| [07_AXP2101](examples/esp-idf/07_AXP2101/) | AXP2101 电源管理 |
 
 ### Arduino
 

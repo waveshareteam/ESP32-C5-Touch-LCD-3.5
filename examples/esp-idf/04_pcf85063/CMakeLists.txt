@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 3.5)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(02_lvgl_demo)
+project(04_pcf85063)

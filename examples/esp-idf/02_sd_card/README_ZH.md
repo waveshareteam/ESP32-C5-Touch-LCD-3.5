@@ -1,4 +1,4 @@
-# 03_sd_card
+# 02_sd_card
 
 [English](README.md) | [简体中文](README_ZH.md)
 

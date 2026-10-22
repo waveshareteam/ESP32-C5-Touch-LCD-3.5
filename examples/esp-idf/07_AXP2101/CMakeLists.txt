@@ -5,4 +5,4 @@ cmake_minimum_required(VERSION 3.5)
 # set(EXTRA_COMPONENT_DIRS ../../../XPowersLib)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(08_AXP2101)
+project(07_AXP2101)

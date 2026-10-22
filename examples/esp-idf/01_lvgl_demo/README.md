@@ -1,10 +1,10 @@
-# 06_shtc3
+# 01_lvgl_demo
 
 [English](README.md) | [简体中文](README_ZH.md)
 
 ## What It Does
 
-Reads the onboard SHTC3 temperature and humidity sensor.
+Runs the LVGL benchmark on the ST7796 display with FT6336 touch input.
 
 ## Hardware Required
 
@@ -21,9 +21,9 @@ idf.py build flash monitor
 
 ## Expected Result
 
-The serial monitor reports temperature and relative humidity.
+The display cycles through LVGL benchmark scenes.
 
 ## Troubleshooting
 
-If readings fail, check sensor power and the I2C connection. The factory Sensor application also displays SHTC3 temperature and humidity alongside RTC and IMU data.
+This example starts the benchmark, rather than the factory application desktop.
 

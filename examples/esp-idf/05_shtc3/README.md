@@ -1,10 +1,10 @@
-# 08_AXP2101
+# 05_shtc3
 
 [English](README.md) | [简体中文](README_ZH.md)
 
 ## What It Does
 
-Initializes the AXP2101 PMIC and reports power and interrupt status.
+Reads the onboard SHTC3 temperature and humidity sensor.
 
 ## Hardware Required
 
@@ -21,9 +21,9 @@ idf.py build flash monitor
 
 ## Expected Result
 
-The serial monitor reports PMIC information and detected power events.
+The serial monitor reports temperature and relative humidity.
 
 ## Troubleshooting
 
-Connect a compatible battery only when testing battery-related functions.
+If readings fail, check sensor power and the I2C connection. The factory Sensor application also displays SHTC3 temperature and humidity alongside RTC and IMU data.
 

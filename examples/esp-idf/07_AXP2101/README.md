@@ -1,10 +1,10 @@
-# 02_lvgl_demo
+# 07_AXP2101
 
 [English](README.md) | [简体中文](README_ZH.md)
 
 ## What It Does
 
-Runs the LVGL benchmark on the ST7796 display with FT6336 touch input.
+Initializes the AXP2101 PMIC and reports power and interrupt status.
 
 ## Hardware Required
 
@@ -21,9 +21,9 @@ idf.py build flash monitor
 
 ## Expected Result
 
-The display cycles through LVGL benchmark scenes.
+The serial monitor reports PMIC information and detected power events.
 
 ## Troubleshooting
 
-This example starts the benchmark, rather than the factory application desktop.
+Connect a compatible battery only when testing battery-related functions.
 

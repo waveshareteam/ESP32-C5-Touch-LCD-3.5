@@ -1,10 +1,10 @@
-# 05_pcf85063
+# 06_exio
 
 [English](README.md) | [简体中文](README_ZH.md)
 
 ## What It Does
 
-Sets and reads the onboard PCF85063A RTC.
+Toggles CH32V006 expansion outputs EXIO8 through EXIO15.
 
 ## Hardware Required
 
@@ -21,9 +21,9 @@ idf.py build flash monitor
 
 ## Expected Result
 
-The serial monitor prints a clock that advances every second.
+The output levels toggle once per second and the serial log reports the state.
 
 ## Troubleshooting
 
-Each boot sets the RTC to 2026-09-22 15:00:00; this is a fixed demo time.
+EXIO0 through EXIO7 are excluded because they control onboard resources.
 

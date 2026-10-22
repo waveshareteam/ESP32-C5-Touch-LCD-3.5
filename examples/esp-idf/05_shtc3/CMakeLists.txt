@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 3.5)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(04_qmi8658)
+project(05_shtc3)

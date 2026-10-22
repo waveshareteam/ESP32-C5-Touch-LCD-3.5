@@ -1,10 +1,10 @@
-# 02_lvgl_demo
+# 05_shtc3
 
 [English](README.md) | [简体中文](README_ZH.md)
 
 ## 功能
 
-在 ST7796 显示屏运行 LVGL benchmark，初始化 FT6336 触摸输入。
+读取板载 SHTC3 温湿度传感器。
 
 ## 硬件需求
 
@@ -21,9 +21,9 @@ idf.py build flash monitor
 
 ## 预期现象
 
-屏幕循环显示 LVGL 基准测试场景。
+串口输出温度和相对湿度。
 
 ## 常见问题
 
-该示例运行基准测试，不显示出厂应用桌面。
+读取失败时请检查传感器供电及 I2C 连接。出厂 Sensor 应用也可查看 SHTC3 温湿度，以及 RTC 和 IMU 数据。
 

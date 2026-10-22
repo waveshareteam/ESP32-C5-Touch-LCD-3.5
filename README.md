@@ -49,13 +49,13 @@ The [factory project](examples/factory/) provides Settings, AIChats, Touch Test,
 
 | Example | Main feature |
 | --- | --- |
-| [02_lvgl_demo](examples/esp-idf/02_lvgl_demo/) | LVGL benchmark and touch display |
-| [03_sd_card](examples/esp-idf/03_sd_card/) | microSD read/write verification |
-| [04_qmi8658](examples/esp-idf/04_qmi8658/) | QMI8658 acceleration and angular velocity |
-| [05_pcf85063](examples/esp-idf/05_pcf85063/) | PCF85063A RTC clock |
-| [06_shtc3](examples/esp-idf/06_shtc3/) | SHTC3 temperature and humidity |
-| [07_exio](examples/esp-idf/07_exio/) | CH32V006 IO expansion |
-| [08_AXP2101](examples/esp-idf/08_AXP2101/) | AXP2101 power management |
+| [01_lvgl_demo](examples/esp-idf/01_lvgl_demo/) | LVGL benchmark and touch display |
+| [02_sd_card](examples/esp-idf/02_sd_card/) | microSD read/write verification |
+| [03_qmi8658](examples/esp-idf/03_qmi8658/) | QMI8658 acceleration and angular velocity |
+| [04_pcf85063](examples/esp-idf/04_pcf85063/) | PCF85063A RTC clock |
+| [05_shtc3](examples/esp-idf/05_shtc3/) | SHTC3 temperature and humidity |
+| [06_exio](examples/esp-idf/06_exio/) | CH32V006 IO expansion |
+| [07_AXP2101](examples/esp-idf/07_AXP2101/) | AXP2101 power management |
 
 ### Arduino
 
