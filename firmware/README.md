@@ -18,4 +18,3 @@ Run from this directory, replacing PORT with your serial port, such as COMx or /
 SHA256: `5de2731c4a9d5100a538c1927afe3ab11b2252f08a1a073e46bf9e8a3e9fb050`.
 
 [Factory source](../examples/factory/README.md) | [Application user guide](../examples/factory/USER_GUIDE.md)
-

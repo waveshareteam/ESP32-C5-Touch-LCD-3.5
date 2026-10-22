@@ -18,4 +18,3 @@ python -m esptool --chip esp32c5 --port PORT write_flash 0x0 ESP32-C5-Touch-LCD-
 SHA256: `5de2731c4a9d5100a538c1927afe3ab11b2252f08a1a073e46bf9e8a3e9fb050`.
 
 [出厂源码](../examples/factory/README_ZH.md) | [应用使用说明](../examples/factory/USER_GUIDE_ZH.md)
-
