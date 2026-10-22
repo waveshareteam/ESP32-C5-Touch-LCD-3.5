@@ -15,6 +15,6 @@ python -m esptool --chip esp32c5 --port PORT write_flash 0x0 ESP32-C5-Touch-LCD-
 
 Run from this directory, replacing PORT with your serial port, such as COMx or /dev/ttyACMx. Flashing replaces the firmware; retain any device settings you need beforehand.
 
-SHA256: `5de2731c4a9d5100a538c1927afe3ab11b2252f08a1a073e46bf9e8a3e9fb050`.
+SHA256: `4aaac1808cfc5fe7f7e518e5a700dcd2df49395875427f9bc96d76f36b766aec`.
 
 [Factory source](../examples/factory/README.md) | [Application user guide](../examples/factory/USER_GUIDE.md)

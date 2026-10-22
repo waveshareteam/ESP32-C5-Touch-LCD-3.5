@@ -15,6 +15,6 @@ python -m esptool --chip esp32c5 --port PORT write_flash 0x0 ESP32-C5-Touch-LCD-
 
 在本目录运行，将 PORT 替换为实际串口，如 COMx 或 /dev/ttyACMx。烧录会替换固件，请先保留需要的设备设置。
 
-SHA256: `5de2731c4a9d5100a538c1927afe3ab11b2252f08a1a073e46bf9e8a3e9fb050`.
+SHA256: `4aaac1808cfc5fe7f7e518e5a700dcd2df49395875427f9bc96d76f36b766aec`.
 
 [出厂源码](../examples/factory/README_ZH.md) | [应用使用说明](../examples/factory/USER_GUIDE_ZH.md)

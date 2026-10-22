@@ -77,7 +77,7 @@ bool ButtonTest::run()
     root_ = screen("Button Test", event, this);
     label(root_, "Press and release each physical button", 16, 72, 288,
           &lv_font_montserrat_12, MUTED);
-    cards_[0] = createCard("BOOT", "GPIO0  /  Active low", 100);
+    cards_[0] = createCard("BOOT", "GPIO28  /  Active low", 100);
     cards_[1] = createCard("PWR", "SYS_OUT  /  EXIO6  /  Active high", 222);
     summary_ = label(root_, "0 / 2 buttons passed", 16, 350, 288, &lv_font_montserrat_18);
     hint_ = label(root_, "Ready. Start with either button.", 16, 378, 288,
@@ -120,13 +120,13 @@ void ButtonTest::work()
             bool pressed = false;
             const esp_err_t ret = bsp_button_get_pressed(ids[i], &pressed);
             if (ret != last_error[i]) {
-                if (ret == ESP_OK) ESP_LOGI("button_test", "%s input ready", i ? "PWR EXIO6" : "BOOT GPIO0");
-                else ESP_LOGW("button_test", "%s read failed: %s", i ? "PWR EXIO6" : "BOOT GPIO0", esp_err_to_name(ret));
+                if (ret == ESP_OK) ESP_LOGI("button_test", "%s input ready", i ? "PWR EXIO6" : "BOOT GPIO28");
+                else ESP_LOGW("button_test", "%s read failed: %s", i ? "PWR EXIO6" : "BOOT GPIO28", esp_err_to_name(ret));
                 last_error[i] = ret;
             }
             if (sequence[i].update(ret == ESP_OK ? int(pressed) : -1)) {
                 if (view.buttons[i].count < MAX_COUNT) ++view.buttons[i].count;
-                ESP_LOGI("button_test", "%s passed, presses=%lu", i ? "PWR EXIO6" : "BOOT GPIO0",
+                ESP_LOGI("button_test", "%s passed, presses=%lu", i ? "PWR EXIO6" : "BOOT GPIO28",
                          static_cast<unsigned long>(view.buttons[i].count));
             }
             view.buttons[i].state = sequence[i].state;
