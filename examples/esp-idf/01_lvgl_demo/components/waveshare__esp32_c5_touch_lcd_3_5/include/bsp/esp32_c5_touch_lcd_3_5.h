@@ -64,7 +64,7 @@ extern "C" {
 #define BSP_CAPS_AUDIO_MIC      1
 #define BSP_CAPS_LED            1
 #define BSP_CAPS_SDCARD         1
-#define BSP_CAPS_IMU            0
+#define BSP_CAPS_IMU            1
 #define BSP_CAPS_CAMERA         1
 /** @} */ // end of capabilities
 
@@ -78,6 +78,7 @@ extern "C" {
  */
 #define BSP_I2C_SCL           (GPIO_NUM_26)
 #define BSP_I2C_SDA           (GPIO_NUM_27)
+#define BSP_I2C_FREQ_HZ       400000
 /** @} */ // end of i2c
 
 /** @defgroup g03_audio Audio
@@ -90,6 +91,12 @@ extern "C" {
 #define BSP_I2S_DOUT          (GPIO_NUM_25)  
 #define BSP_I2S_DSIN          (GPIO_NUM_24)
 #define BSP_POWER_AMP_IO       (GPIO_NUM_NC)
+
+/* Names shared with the factory BSP; retain legacy aliases for the examples. */
+#define BSP_I2S_BCLK          BSP_I2S_SCLK
+#define BSP_I2S_LRCLK         BSP_I2S_LCLK
+#define BSP_I2S_DIN           BSP_I2S_DSIN
+#define BSP_AUDIO_PA          BSP_POWER_AMP_IO /* CH32V003 EXIO5 */
 
 
 /** @} */ // end of audio
@@ -107,8 +114,23 @@ extern "C" {
 #define BSP_LCD_BACKLIGHT     (GPIO_NUM_NC) // Connected via IO expander PWM1
 #define BSP_LCD_TOUCH_RST     (GPIO_NUM_NC) // Connected via IO expander P0
 #define BSP_LCD_TOUCH_INT     (GPIO_NUM_3)
+#define BSP_LCD_SPI_HOST      SPI2_HOST
+#define BSP_LCD_MOSI          BSP_LCD_DATA0
+#define BSP_LCD_SCLK          BSP_LCD_PCLK
+#define BSP_TOUCH_RST         BSP_LCD_TOUCH_RST
+#define BSP_TOUCH_INT         BSP_LCD_TOUCH_INT
 /** @} */ // end of display
 
+/* BOOT is active-low on GPIO28. PWR is active-high on CH32V003 EXIO6.
+ * EXIO6 is an expander pin mask, not an ESP32 GPIO number. */
+#define BSP_BUTTON_BOOT       GPIO_NUM_28
+#define BSP_BUTTON_PWR_EXIO   (1U << 6)
+
+/* BF3901 camera: GPIO0 is camera data, not the BOOT button. */
+#define BSP_CAMERA_CS         GPIO_NUM_12
+#define BSP_CAMERA_SCLK       GPIO_NUM_11
+#define BSP_CAMERA_D0         GPIO_NUM_0
+#define BSP_CAMERA_D1         GPIO_NUM_1
 
 /** @defgroup g02_storage SD Card and SPIFFS
  *  @brief SPIFFS and SD card BSP API
@@ -119,6 +141,7 @@ extern "C" {
 #define BSP_SD_SCK          (GPIO_NUM_6)
 #define BSP_SD_MOSI         (GPIO_NUM_7)
 #define BSP_SD_MISO         (GPIO_NUM_2)
+#define BSP_SD_CS           BSP_SD_SPI_CS
 /** @} */ // end of storage
 
 /** \addtogroup g03_audio
@@ -129,9 +152,7 @@ extern "C" {
  *
  * I2S audio interface
  *
- * There are two devices connected to the I2S peripheral:
- *  - Codec ES8311 for output (playback) path
- *  - ADC ES7210 for input (recording) path
+ * ES8311 provides both the playback and microphone recording paths.
  *
  * For speaker initialization use bsp_audio_codec_speaker_init() which is inside initialize I2S with bsp_audio_init().
  * For microphone initialization use bsp_audio_codec_microphone_init() which is inside initialize I2S with bsp_audio_init().
@@ -194,9 +215,9 @@ esp_codec_dev_handle_t bsp_audio_codec_microphone_init(void);
  *
  * There are multiple devices connected to I2C peripheral:
  *  - Codec ES8311 (configuration only)
- *  - ADC ES7210 (configuration only)
  *  - LCD Touch controller
- *  - IO Expander TCA9554
+ *  - CH32V003-compatible IO expander
+ *  - AXP2101 PMU, PCF85063A RTC, QMI8658 IMU and SHTC3 sensor
  *  - Camera
  **************************************************************************************************/
 #define BSP_I2C_NUM     CONFIG_BSP_I2C_NUM
@@ -431,8 +452,8 @@ uint16_t bsp_get_io_expander_adc(void);
  *
  * LCD interface
  *
- * Board is shipped with 2.4inch ILI9341 display controller.
- * It features 16-bit colors, 320x240 resolution and capacitive touch controller.
+ * Board uses a 3.5-inch ST7796 LCD with 16-bit colors, 320x480 resolution
+ * and an FT6336 capacitive touch controller.
  *
  * LVGL is used as graphics library. LVGL is NOT thread safe, therefore the user must take LVGL mutex
  * by calling bsp_display_lock() before calling and LVGL API (lv_...) and then give the mutex with
@@ -441,7 +462,7 @@ uint16_t bsp_get_io_expander_adc(void);
  * Display's backlight must be enabled explicitly by calling bsp_display_backlight_on()
  **************************************************************************************************/
 #define BSP_LCD_PIXEL_CLOCK_HZ     (60 * 1000 * 1000)
-#define BSP_LCD_SPI_NUM            (SPI2_HOST)
+#define BSP_LCD_SPI_NUM            BSP_LCD_SPI_HOST
 
 #if (BSP_CONFIG_NO_GRAPHIC_LIB == 0)
 

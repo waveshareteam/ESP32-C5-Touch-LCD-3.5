@@ -8,7 +8,7 @@
 
 ## 硬件需求
 
-ESP32-C5-Touch-LCD-3.5；LCD 为 ST7796，触摸为 FT6336。
+ESP32-C5-Touch-LCD-3.5；LCD 为 ST7796，触摸为 FT6336。BOOT 使用 GPIO28，低电平表示按下；PWR 通过 EXIO6 读取，高电平表示按下，EXIO6 不是主控 GPIO。
 
 ## 怎么运行
 

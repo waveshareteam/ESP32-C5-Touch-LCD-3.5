@@ -55,6 +55,7 @@ static i2s_chan_handle_t i2s_tx_chan = NULL;
 static i2s_chan_handle_t i2s_rx_chan = NULL;
 static const audio_codec_data_if_t *i2s_data_if = NULL;  /* Codec data interface */
 static esp_io_expander_handle_t io_expander = NULL;
+static bool io_expander_initialized = false;
 static qmi8658_dev_t *_qmi8658_dev = NULL; 
 static pcf85063a_dev_t *_pcf85063a_dev = NULL;
 static i2c_master_dev_handle_t _shtc3_handle = NULL;
@@ -62,7 +63,7 @@ static i2c_master_dev_handle_t _shtc3_handle = NULL;
 /* Can be used for i2s_std_gpio_config_t and/or i2s_std_config_t initialization */
 
 /**
- * @brief Kaluga-kit I2S pinout
+ * @brief ESP32-C5-Touch-LCD-3.5 ES8311 I2S pinout
  *
  * Can be used for i2s_std_gpio_config_t and/or i2s_std_config_t initialization
  */
@@ -372,17 +373,30 @@ esp_codec_dev_handle_t bsp_audio_codec_microphone_init(void)
 
 esp_err_t bsp_io_expander_init(void)
 {
-    esp_err_t ret = ESP_OK;
-    bsp_i2c_init();
-    ret = custom_io_expander_new_i2c_ch32v003(i2c_handle, BSP_IO_EXPANDER_I2C_ADDRESS_CH32V003, &io_expander);
-    esp_io_expander_set_dir(io_expander, IO_EXPANDER_PIN_NUM_0 | IO_EXPANDER_PIN_NUM_1 | IO_EXPANDER_PIN_NUM_5, IO_EXPANDER_OUTPUT);
-    esp_io_expander_set_dir(io_expander, IO_EXPANDER_PIN_NUM_6, IO_EXPANDER_INPUT);
-    esp_io_expander_set_level(io_expander,   IO_EXPANDER_PIN_NUM_0 | IO_EXPANDER_PIN_NUM_1 , 1);
-    vTaskDelay(50 / portTICK_PERIOD_MS);
-    esp_io_expander_set_level(io_expander,   IO_EXPANDER_PIN_NUM_0 | IO_EXPANDER_PIN_NUM_1 , 0);
-    vTaskDelay(50 / portTICK_PERIOD_MS);
-    esp_io_expander_set_level(io_expander,   IO_EXPANDER_PIN_NUM_0 | IO_EXPANDER_PIN_NUM_1 | IO_EXPANDER_PIN_NUM_5 , 1);
-    return ret;
+    if (io_expander_initialized) {
+        return ESP_OK;
+    }
+    ESP_RETURN_ON_ERROR(bsp_i2c_init(), TAG, "I2C bus");
+    if (!io_expander) {
+        ESP_RETURN_ON_ERROR(custom_io_expander_new_i2c_ch32v003(i2c_handle,
+                            BSP_IO_EXPANDER_I2C_ADDRESS_CH32V003, &io_expander), TAG, "IO expander");
+    }
+    ESP_RETURN_ON_ERROR(custom_io_expander_set_pwm(io_expander, 0), TAG, "Backlight off before reset");
+    brightness = 0;
+    const uint32_t resets = IO_EXPANDER_PIN_NUM_0 | IO_EXPANDER_PIN_NUM_1;
+    ESP_RETURN_ON_ERROR(esp_io_expander_set_dir(io_expander, resets | IO_EXPANDER_PIN_NUM_5,
+                                              IO_EXPANDER_OUTPUT), TAG, "EXIO outputs");
+    ESP_RETURN_ON_ERROR(esp_io_expander_set_dir(io_expander, BSP_BUTTON_PWR_EXIO,
+                                              IO_EXPANDER_INPUT), TAG, "PWR input");
+    ESP_RETURN_ON_ERROR(esp_io_expander_set_level(io_expander, resets, 1), TAG, "Reset idle");
+    vTaskDelay(pdMS_TO_TICKS(50));
+    ESP_RETURN_ON_ERROR(esp_io_expander_set_level(io_expander, resets, 0), TAG, "Reset low");
+    vTaskDelay(pdMS_TO_TICKS(50));
+    ESP_RETURN_ON_ERROR(esp_io_expander_set_level(io_expander, resets | IO_EXPANDER_PIN_NUM_5, 1),
+                        TAG, "Reset high and PA enable");
+    vTaskDelay(pdMS_TO_TICKS(100));
+    io_expander_initialized = true;
+    return ESP_OK;
 }
 
 esp_io_expander_handle_t bsp_get_io_expander(void)
@@ -556,8 +570,7 @@ static lv_indev_t *bsp_display_indev_init(const bsp_display_cfg_t *cfg, lv_displ
 
 esp_err_t bsp_display_brightness_init(void)
 {
-    ESP_LOGW(TAG, "This board doesn't support to change brightness of LCD");
-    return ESP_ERR_NOT_SUPPORTED;
+    return bsp_io_expander_init();
 }
 
 esp_err_t bsp_display_brightness_set(int brightness_percent)
@@ -568,13 +581,10 @@ esp_err_t bsp_display_brightness_set(int brightness_percent)
         brightness_percent = 0;
     }
 
-    int flipped_brightness = brightness_percent;
-
-    brightness = (uint8_t)((flipped_brightness * 255) / 100);
-
-    ESP_LOGI(TAG, "Setting flipped LCD backlight: %d%% (original: %d%%)", flipped_brightness, brightness_percent);
-
-    custom_io_expander_set_pwm(io_expander,(uint8_t)brightness);
+    ESP_RETURN_ON_ERROR(bsp_display_brightness_init(), TAG, "Backlight init");
+    const uint8_t duty = (uint8_t)((brightness_percent * 255) / 100);
+    ESP_RETURN_ON_ERROR(custom_io_expander_set_pwm(io_expander, duty), TAG, "Backlight PWM");
+    brightness = duty;
     return ESP_OK;
 }
 
