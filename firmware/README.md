@@ -2,6 +2,8 @@
 
 [English](README.md) | [简体中文](README_ZH.md)
 
+The firmware below supports **ESP32-C5-Touch-LCD-3.5** and **ESP32-C5-Touch-LCD-3.5-C**, including their **-EN variants without a battery**, and includes support for the **BF3901 camera**. Select **ESP32-C5-Touch-LCD-3.5** when flashing through the [firmware center](https://hub.waveshare.net/).
+
 | File | Purpose |
 | --- | --- |
 | [ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin](ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin) | 12-application factory desktop with Xiaozhi, SHTC3 temperature/humidity, Button Test and Display Test; ESP-IDF v5.5.4 |

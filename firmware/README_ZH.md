@@ -2,6 +2,8 @@
 
 [English](README.md) | [简体中文](README_ZH.md)
 
+以下固件适用于 **ESP32-C5-Touch-LCD-3.5**、**ESP32-C5-Touch-LCD-3.5-C**（含各自 **-EN 不带电池版本**），已适配 **BF3901 摄像头**。在[固件中心](https://hub.waveshare.net/)网页烧录时，统一选择主型号 **ESP32-C5-Touch-LCD-3.5**。
+
 | 文件 | 用途 |
 | --- | --- |
 | [ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin](ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin) | 12 个应用的出厂桌面，包含小智、SHTC3 温湿度、按键测试与显示测试；ESP-IDF v5.5.4 |
