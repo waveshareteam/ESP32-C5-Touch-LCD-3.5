@@ -84,6 +84,7 @@ In Arduino, select **ESP32C5 Dev Module**, enable PSRAM and USB CDC On Boot, and
 ## 📚 Resources
 
 - [Schematic](hardware/schematic/)
+- [3D model (STEP)](hardware/mechanical/ESP32-C5-Touch-LCD-3.5-STP.stp)
 - [Product page](https://www.waveshare.net/shop/ESP32-C5-Touch-LCD-3.5.htm)
 - [Wiki](https://docs.waveshare.com/ESP32-C5-Touch-LCD-3.5)
 
