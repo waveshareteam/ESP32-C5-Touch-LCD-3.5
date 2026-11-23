@@ -84,6 +84,7 @@ Arduino 选择 **ESP32C5 Dev Module**，启用 PSRAM、USB CDC On Boot，Flash M
 ## 📚 资料
 
 - [原理图](hardware/schematic/)
+- [3D 结构模型（STEP）](hardware/mechanical/ESP32-C5-Touch-LCD-3.5-STP.stp)
 - [产品页面](https://www.waveshare.net/shop/ESP32-C5-Touch-LCD-3.5.htm)
 - [Wiki](https://docs.waveshare.net/ESP32-C5-Touch-LCD-3.5/)
 

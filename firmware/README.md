@@ -2,11 +2,15 @@
 
 [English](README.md) | [简体中文](README_ZH.md)
 
+- **Compatible models:** ESP32-C5-Touch-LCD-3.5 and ESP32-C5-Touch-LCD-3.5-C, including their -EN variants supplied without a battery.
+- **Camera support:** Supports the **BF3901 camera**. Connect a BF3901 module to use the camera functions.
+- **Web flashing:** Select **ESP32-C5-Touch-LCD-3.5** in the [firmware center](https://hub.waveshare.net/).
+
 | File | Purpose |
 | --- | --- |
 | [ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin](ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin) | 12-application factory desktop with Xiaozhi, SHTC3 temperature/humidity, Button Test and Display Test; ESP-IDF v5.5.4 |
 
-This directory contains only the latest factory firmware. The merged image includes the bootloader, partition table, application and speech model, built for the board's **32 MB Flash and 8 MB PSRAM**. Flash at **0x0**; camera functions require a connected BF3901 module.
+This directory contains only the latest factory firmware. The merged image includes the bootloader, partition table, application and speech model, built for the board's **32 MB Flash and 8 MB PSRAM**. Flash at **0x0**.
 
 ```bash
 python -m pip install esptool

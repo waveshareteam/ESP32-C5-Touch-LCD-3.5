@@ -2,11 +2,15 @@
 
 [English](README.md) | [简体中文](README_ZH.md)
 
+- **适用型号：** ESP32-C5-Touch-LCD-3.5、ESP32-C5-Touch-LCD-3.5-C，含对应的 -EN 不带电池版本。
+- **摄像头支持：** 已适配 **BF3901 摄像头**，连接 BF3901 模组后可使用摄像头功能。
+- **网页烧录：** 在[固件中心](https://hub.waveshare.net/)统一选择 **ESP32-C5-Touch-LCD-3.5**。
+
 | 文件 | 用途 |
 | --- | --- |
 | [ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin](ESP32-C5-Touch-LCD-3.5_FactoryOnly_20261022.bin) | 12 个应用的出厂桌面，包含小智、SHTC3 温湿度、按键测试与显示测试；ESP-IDF v5.5.4 |
 
-本目录仅保留最新出厂固件。合并镜像包含引导程序、分区表、应用和语音模型，按 **32 MB Flash、8 MB PSRAM** 的产品配置构建，从 **0x0** 烧录；摄像头功能需要连接 BF3901 模组。
+本目录仅保留最新出厂固件。合并镜像包含引导程序、分区表、应用和语音模型，按 **32 MB Flash、8 MB PSRAM** 的产品配置构建，从 **0x0** 烧录。
 
 ```bash
 python -m pip install esptool
